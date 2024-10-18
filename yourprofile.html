@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accepted Requests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Heading */
+        .heading {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Request List */
+        .request-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Request Card */
+        .request-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .request-details {
+            font-size: 16px;
+        }
+
+        .request-buttons button {
+            padding: 8px 12px;
+            background-color: #48b475;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .request-buttons button:hover {
+            background-color: #3f9f65;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="heading">People Who Accepted Your Request</div>
+
+        <div class="request-list">
+            <div class="request-card">
+                <div class="request-details">John Doe</div>
+                <div class="request-buttons">
+                    <button>Accept</button>
+                    <button>Request</button>
+                </div>
+            </div>
+
+            <div class="request-card">
+                <div class="request-details">Jane Smith</div>
+                <div class="request-buttons">
+                    <button>Accept</button>
+                    <button>Request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

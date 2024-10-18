@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ride Share App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f0f8ff, #add8e6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 30px;
+            background: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            position: relative;
+        }
+        iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+            border-radius: 12px;
+        }
+        .form-container input, .form-container button {
+            padding: 12px;
+            margin: 10px 0;
+            width: calc(100% - 24px);
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            background-color: #5DD880;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        .actions button {
+            width: 48%;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .actions .find-pool {
+            background-color: #28a745;
+            color: white;
+        }
+        .actions .offer-pool {
+            background-color: #007bff;
+            color: white;
+        }
+        /* Urgent button */
+        .urgent-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #ff4d4d;
+            color: white;
+            padding: 10px;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .urgent-btn i {
+            margin-right: 5px;
+            font-size: 18px;
+        }
+        .urgent-btn:hover {
+            background-color: #ff3333;
+        }
+        /* AI voice button */
+        .ai-instructions {
+            position: absolute;
+            top: 70px;
+            right: 15px;
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+        .ai-instructions:hover {
+            background-color: #0056b3;
+        }
+        .ai-instructions i {
+            font-size: 24px;
+            margin-right: 8px;
+        }
+        /* Toast notification */
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+        }
+
+        .toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Urgent Button -->
+        <button class="urgent-btn" id="urgentBtn">
+            <i class="fas fa-exclamation-circle"></i> Urgent
+        </button>
+
+        <!-- AI Voice Instruction Button -->
+        <button class="ai-instructions" onclick="giveVoiceInstruction()">
+            <i class="fas fa-volume-up"></i> Voice Assistant
+        </button>
+
+        <h1>Ride Share App</h1>
+
+        <!-- Embed Google Map -->
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.5411508953753!2d80.22350167454509!3d12.872886117035952!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a525b8c90befe2b%3A0x170ab8b5b21bb530!2sSathyabama%20Institute%20of%20Science%20and%20Technology!5e0!3m2!1sen!2sin!4v1726565344854!5m2!1sen!2sin" loading="lazy"></iframe>
+
+        <!-- Buttons for Finding and Offering Pool -->
+        <div class="actions">
+            <button class="find-pool">Find Pool</button>
+            <button class="offer-pool">Offer Pool</button>
+        </div>
+
+        <!-- Form for Current Location and Destination -->
+        <div class="form-container">
+            <input type="text" id="currentLocation" value="Airport, Chennai, Tamil Nadu">
+            <input type="text" id="destination" value="Sathyabama College, Near Semmencheri">
+        </div>
+
+        <!-- Number of Seats Available -->
+        <div class="form-container">
+            <input type="number" id="seats" placeholder="Number of Seats Available">
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="toast">Your current address has been sent to your emergency contact.</div>
+    </div>
+
+    <!-- Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <!-- Voice Instruction Script -->
+    <script>
+        function giveVoiceInstruction() {
+            const instruction = "Please give voice commands for the following options: play music, know about routes, or get the weather updates.";
+            if ('speechSynthesis' in window) {
+                const msg = new SpeechSynthesisUtterance(instruction);
+                window.speechSynthesis.speak(msg);
+            } else {
+                console.log('Speech synthesis not supported in this browser.');
+            }
+        }
+
+        let urgentClickCount = 0;
+
+        // Function to show toast notification
+        function showToast() {
+            const toast = document.getElementById("toast");
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3000);
+        }
+
+        // Function to simulate sending the current address
+        function sendCurrentAddress() {
+            const currentLocation = document.getElementById('currentLocation').value;
+            console.log(`Current location (${currentLocation}) sent to your emergency contact.`);
+            showToast();
+        }
+
+        // Urgent button click handler
+        document.getElementById('urgentBtn').addEventListener('click', function() {
+            urgentClickCount++;
+            if (urgentClickCount === 3) {
+                sendCurrentAddress();
+                urgentClickCount = 0;  // Reset click count after sending
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #5DD800;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 600px;
+            text-align: center;
+        }
+
+        .user-card {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f4f4f4;
+        }
+
+        .user-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .billing-details {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .billing-details span {
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .payment-select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .payment-details {
+            display: none;
+        }
+
+        .payment-details input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .pay-btn {
+            background-color: #5DD880; /* Updated button color */
+            color: white;
+            padding: 10px;
+            border: none;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- User 1 Billing Info -->
+        <div class="user-card" id="user1">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User Image" class="user-image">
+            <div class="billing-details">
+                <p>Name: <span>John Doe</span></p>
+                <p>Total Distance: <span>8 km</span></p>
+                <p>Fare to Pay: <span>₹160</span></p> <!-- User 1 Fare Calculation -->
+            </div>
+            <select id="paymentMethod1" class="payment-select" onchange="showPaymentInput(1)">
+                <option value="cash">Cash</option>
+                <option value="credit">Credit/Debit Card</option>
+                <option value="upi">UPI</option>
+            </select>
+            <div id="paymentDetails1" class="payment-details">
+                <input type="text" id="upiId1" placeholder="Enter UPI ID" class="upi-input">
+            </div>
+            <button class="pay-btn" id="proceedBtn1" onclick="proceedPayment(1)">Proceed to Pay</button>
+        </div>
+
+        <!-- User 2 Billing Info -->
+        <div class="user-card" id="user2">
+            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="User Image" class="user-image">
+            <div class="billing-details">
+                <p>Name: <span>Jane Smith</span></p>
+                <p>Total Distance: <span>12 km</span></p>
+                <p>Fare to Pay: <span>₹240</span></p> <!-- User 2 Fare Calculation -->
+            </div>
+            <select id="paymentMethod2" class="payment-select" onchange="showPaymentInput(2)">
+                <option value="cash">Cash</option>
+                <option value="credit">Credit/Debit Card</option>
+                <option value="upi">UPI</option>
+            </select>
+            <div id="paymentDetails2" class="payment-details">
+                <input type="text" id="upiId2" placeholder="Enter UPI ID" class="upi-input">
+            </div>
+            <button class="pay-btn" id="proceedBtn2" onclick="proceedPayment(2)">Proceed to Pay</button>
+        </div>
+
+    </div>
+
+    <script>
+        // Show payment input based on selected option
+        function showPaymentInput(userId) {
+            const paymentMethod = document.getElementById(`paymentMethod${userId}`).value;
+            const paymentDetails = document.getElementById(`paymentDetails${userId}`);
+            const proceedBtn = document.getElementById(`proceedBtn${userId}`);
+
+            if (paymentMethod === 'upi') {
+                paymentDetails.style.display = 'block'; // Show UPI ID input
+                proceedBtn.innerText = 'Proceed to Pay with UPI';
+            } else {
+                paymentDetails.style.display = 'none'; // Hide UPI input for other methods
+                proceedBtn.innerText = `Proceed to Pay with ${paymentMethod === 'cash' ? 'Cash' : 'Card'}`;
+            }
+        }
+
+        // Payment process logic
+        function proceedPayment(userId) {
+            const paymentMethod = document.getElementById(`paymentMethod${userId}`).value;
+            if (paymentMethod === 'upi') {
+                const upiId = document.getElementById(`upiId${userId}`).value;
+                if (upiId.trim() === '') {
+                    alert(`User ${userId}: Please enter your UPI ID.`);
+                    return;
+                }
+                alert(`User ${userId}: UPI Payment initiated with ID: ${upiId}`);
+            } else if (paymentMethod === 'credit') {
+                alert(`User ${userId}: Proceeding with Credit/Debit Card payment.`);
+            } else {
+                alert(`User ${userId}: Please pay in cash.`);
+            }
+        }
+    </script>
+
+</body>
+</html>

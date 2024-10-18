@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suggested People</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f5f3;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #48b475;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav .links {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Filter Section */
+        .filter {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .filter label {
+            font-weight: bold;
+        }
+
+        .filter select {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        /* Lowered Heading */
+        .heading {
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* People List */
+        .people-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        /* Person Card */
+        .person-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .person-card img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .person-details {
+            flex-grow: 1;
+            margin-left: 20px;
+        }
+
+        .person-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .person-gender {
+            font-size: 14px;
+            color: gray;
+        }
+
+        /* Bargain Request Button */
+        .bargain-btn {
+            padding: 8px 12px;
+            background-color: #48b475;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .bargain-btn:hover {
+            background-color: #3f9f65;
+        }
+
+        /* Bargain Request Box */
+        .bargain-request-box {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .bargain-text {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 60%;
+            margin-right: 10px;
+        }
+
+        .bargain-amount {
+            width: 20%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        /* Send Request Button */
+        .send-request-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .send-request-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">People Finder</div>
+        <div class="links">
+            <a href="#">Home</a>
+            <a href="#">Profile</a>
+            <a href="#">Messages</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Filter Option -->
+        <div class="filter">
+            <div>
+                <label for="genderFilter">Filter by Gender:</label>
+                <select id="genderFilter" onchange="filterPeople()">
+                    <option value="all">All</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <button class="bargain-btn" onclick="resetFilters()">Reset Filters</button>
+        </div>
+
+        <!-- Lower Heading -->
+        <div class="heading">Suggested People</div>
+
+        <!-- People List -->
+        <div class="people-list" id="peopleList">
+            <!-- Sample Person -->
+            <div class="person-card" data-gender="male">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John Doe">
+                <div class="person-details">
+                    <div class="person-name">John Doe</div>
+                    <div class="person-gender">Male</div>
+                </div>
+                <button class="bargain-btn" onclick="openBargainRequest(this)">Send Bargain Request</button>
+                <div class="bargain-request-box">
+                    <input type="text" class="bargain-text" placeholder="Hey, I want to have a bargain request of">
+                    <input type="number" class="bargain-amount" placeholder="Amount">
+                </div>
+            </div>
+
+            <!-- Repeat with More People -->
+            <div class="person-card" data-gender="female">
+                <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Jane Smith">
+                <div class="person-details">
+                    <div class="person-name">Jane Smith</div>
+                    <div class="person-gender">Female</div>
+                </div>
+                <button class="bargain-btn" onclick="openBargainRequest(this)">Send Bargain Request</button>
+                <div class="bargain-request-box">
+                    <input type="text" class="bargain-text" placeholder="Hey, I want to have a bargain request of">
+                    <input type="number" class="bargain-amount" placeholder="Amount">
+                </div>
+            </div>
+            <div class="person-card" data-gender="female">
+                <img src="https://randomuser.me/api/portraits/women/50.jpg" alt="Emily Davis">
+                <div class="person-details">
+                    <div class="person-name">Emily Davis</div>
+                    <div class="person-gender">Female</div>
+                </div>
+                <button class="bargain-btn" onclick="openBargainRequest(this)">Send Bargain Request</button>
+                <div class="bargain-request-box">
+                    <input type="text" class="bargain-text" placeholder="Hey, I want to have a bargain request of">
+                    <input type="number" class="bargain-amount" placeholder="Amount">
+                </div>
+            </div>
+            
+            <div class="person-card" data-gender="male">
+                <img src="https://randomuser.me/api/portraits/men/53.jpg" alt="Michael Brown">
+                <div class="person-details">
+                    <div class="person-name">Michael Brown</div>
+                    <div class="person-gender">Male</div>
+                </div>
+                <button class="bargain-btn" onclick="openBargainRequest(this)">Send Bargain Request</button>
+                <div class="bargain-request-box">
+                    <input type="text" class="bargain-text" placeholder="Hey, I want to have a bargain request of">
+                    <input type="number" class="bargain-amount" placeholder="Amount">
+                </div>
+            </div>
+            
+            <div class="person-card" data-gender="female">
+                <img src="https://randomuser.me/api/portraits/women/60.jpg" alt="Samantha Lee">
+                <div class="person-details">
+                    <div class="person-name">Samantha Lee</div>
+                    <div class="person-gender">Female</div>
+                </div>
+                <button class="bargain-btn" onclick="openBargainRequest(this)">Send Bargain Request</button>
+                <div class="bargain-request-box">
+                    <input type="text" class="bargain-text" placeholder="Hey, I want to have a bargain request of">
+                    <input type="number" class="bargain-amount" placeholder="Amount">
+                </div>
+            </div>
+            
+
+            <!-- More people as needed -->
+        </div>
+
+        <!-- Send Request Button -->
+        <a href="yourprofile.html">
+        <button class="send-request-btn" onclick="goToRequestPage()">Send Request</button>
+        </a>
+    </div>
+
+    <script>
+        // Function to filter people by gender
+        function filterPeople() {
+            const genderFilter = document.getElementById('genderFilter').value;
+            const peopleCards = document.querySelectorAll('.person-card');
+
+            peopleCards.forEach(card => {
+                const personGender = card.getAttribute('data-gender');
+
+                if (genderFilter === 'all' || personGender === genderFilter) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Function to reset filters
+        function resetFilters() {
+            document.getElementById('genderFilter').value = 'all';
+            filterPeople();
+        }
+
+        // Function to open the bargain request box and prompt for amount
+        function openBargainRequest(button) {
+            const requestBox = button.nextElementSibling;
+            requestBox.style.display = requestBox.style.display === 'block' ? 'none' : 'block';
+
+            // Check if amount is provided
+            if (requestBox.style.display === 'block') {
+                setTimeout(() => alert('Please enter the bargain amount!'), 200);
+            }
+        }
+
+        // Navigate to another page when the "Send Request" button is clicked
+        function goToRequestPage() {
+            window.location.href = "requestAccepted.html";
+        }
+    </script>
+</body>
+
+</html>

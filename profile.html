@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        .heading {
+            font-size: 24px;
+            text-align: left;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .heading span {
+            display: block;
+        }
+        .heading span:first-letter {
+            text-transform: uppercase;
+        }
+        .heading::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 5px;
+            background-color: #28a745;
+            margin: 10px 0;
+        }
+        input[type="text"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .gender-title {
+            text-align: left;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .gender-options {
+            margin: 10px 0;
+            text-align: left;
+        }
+        .gender-options label {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .google-login {
+            margin: 20px 0;
+            text-align: left;
+        }
+        .google-login button {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .google-login button img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .divider hr {
+            flex: 1;
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 0 10px;
+        }
+        .submit-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="heading">
+            <span>Create</span>
+            <span>Your</span>
+            <span>Profile</span>
+        </div>
+
+        <!-- Google Login Button with Logo -->
+        <div class="google-login">
+            <button onclick="googleSignIn()">
+                <img src="https://w7.pngwing.com/pngs/543/934/png-transparent-google-app-logo-google-logo-g-suite-google-text-logo-circle.png" alt="Google Logo">
+                Login with Google
+            </button>
+        </div>
+
+        <div class="divider">
+            <hr>
+            <span>OR</span>
+            <hr>
+        </div>
+
+        <form id="profileForm">
+            <input type="text" id="name" placeholder="Enter your name" required><br>
+            <input type="email" id="email" placeholder="Enter your email for communication" required><br>
+
+            <div class="gender-title">Gender *</div>
+            <div class="gender-options">
+                <label><input type="radio" name="gender" value="Male" required> Male</label>
+                <label><input type="radio" name="gender" value="Female"> Female</label>
+                <label><input type="radio" name="gender" value="Not to say"> Prefer not to say</label>
+            </div>
+
+            <input type="text" id="referral" placeholder="Referral/Promo Code (optional)">
+            
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        function googleSignIn() {
+            alert('Google sign-in feature to be implemented!');
+        }
+
+        document.getElementById('profileForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const gender = document.querySelector('input[name="gender"]:checked').value;
+            const referral = document.getElementById('referral').value;
+
+            alert(`Name: ${name}, Email: ${email}, Gender: ${gender}, Referral: ${referral}`);
+
+            // Redirect to another page
+            window.location.href = 'sarangi.html'; // Replace 'another-page.html' with the actual URL of the page you want to redirect to
+        });
+    </script>
+
+</body>
+</html>
